@@ -7,6 +7,7 @@ import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import React from "react";
+import { Link } from "react-router-dom";
 
 function NavigationBar() {
   return (
@@ -33,18 +34,21 @@ function NavigationBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button
+              component={Link}
+              to={"/search"}
               key={"search"}
               sx={{ my: 2, color: "white" }}
               startIcon={<Search />}
-              href="/search"
             >
               Search
             </Button>
+
             <Button
+              component={Link}
               key={"favourite"}
               sx={{ my: 2, color: "white" }}
               startIcon={<Star />}
-              href="/favourite"
+              to="/favourite"
             >
               Favourite
             </Button>

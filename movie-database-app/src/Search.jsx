@@ -4,7 +4,7 @@ import Grid from "@mui/system/Unstable_Grid";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import MoviesBoard from "MoviesBoard";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSearch, useSerchUpdate } from "./SearchContext";
 
 async function getMovies(searchText, pageParam) {
@@ -14,13 +14,12 @@ async function getMovies(searchText, pageParam) {
 }
 
 export default function SearchMoviesPage() {
-  const searchRef = useRef("");
+  const searchData = useSearch();
+  const setSearchData = useSerchUpdate();
+  const searchRef = useRef();
   const [searchString, setSearchString] = useState("");
   const [moviesList, setMoviesList] = useState(null);
   const [moviesCount, setMoviesCount] = useState(0);
-
-  const searchData = useSearch();
-  const setSearchData = useSerchUpdate();
 
   const { data, isFetchingNextPage, hasNextPage, fetchNextPage } =
     useInfiniteQuery({
@@ -47,15 +46,22 @@ export default function SearchMoviesPage() {
             ? data.pages[0].data.totalResults
             : 0
         );
-
-        setSearchData({
-          searchString: searchString,
-          data: data,
-        });
+        if (searchString !== "" && searchData?.searchString !== searchString) {
+          setSearchData({
+            searchString: searchString,
+            data: data,
+          });
+        }
       },
     });
 
-  console.log(searchData);
+  useEffect(() => {
+    console.log(searchData);
+    if (searchData) {
+      searchRef.current.value = searchData.searchString;
+      setSearchString(searchData.searchString);
+    }
+  }, []);
 
   function onSerchSubmit(event) {
     event.preventDefault();
@@ -80,18 +86,32 @@ export default function SearchMoviesPage() {
   return (
     <>
       <Grid container spacing={1}>
-        <Grid xs={6}>
-          <Box component="form" onSubmit={onSerchSubmit}>
-            <TextField
-              id="search-bar"
-              label="Find movies"
-              variant="outlined"
-              inputRef={searchRef}
-            />
-            <Button startIcon={<Search />} variant="outlined" type="submit" />
-          </Box>
+        <Grid xs={12} mx={{ paddingTop: 20 }}>
+          <Grid xs={6}>
+            <Box
+              component="form"
+              onSubmit={onSerchSubmit}
+              sx={{ display: "inline-flex" }}
+            >
+              <TextField
+                id="search-bar"
+                label="Find movies"
+                variant="outlined"
+                inputRef={searchRef}
+                sx={{ paddingRight: 2,  width: 'auto'}}
+              />
+              <Button
+                startIcon={<Search />}
+                variant="contained"
+                type="submit"
+                size="large"
+              >
+                Search
+              </Button>
+            </Box>
+          </Grid>
+          <Grid xs={6}>Results: {moviesCount}</Grid>
         </Grid>
-        <Grid xs={6}>Results: {moviesCount}</Grid>
         {showSearchResult()}
         <Grid xs={12}>
           <Button
