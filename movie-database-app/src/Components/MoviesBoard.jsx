@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Unstable_Grid2";
-import MovieCard from "MovieCard";
+import MovieCard from "Components/MovieCard";
 import { PropTypes } from "prop-types";
 import React from "react";
 
@@ -13,6 +13,7 @@ export default function MoviesBoard({ movies }) {
             title={movie.Title}
             year={movie.Year}
             imgUrl={movie.Poster}
+            movieId={movie.imdbID}
           />
         </Grid>
       ))}

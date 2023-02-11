@@ -2,21 +2,15 @@ import { Add, Search } from "@mui/icons-material";
 import { Box, Button, Skeleton, TextField } from "@mui/material";
 import Grid from "@mui/system/Unstable_Grid";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import axios from "axios";
-import MoviesBoard from "MoviesBoard";
+import MoviesBoard from "Components/MoviesBoard";
 import React, { useEffect, useRef, useState } from "react";
-import { useSearch, useSerchUpdate } from "./SearchContext";
-
-async function getMovies(searchText, pageParam) {
-  return await axios.get(
-    `http://omdbapi.com/?apikey=da981403&s=${searchText}&page=${pageParam}`
-  );
-}
+import { getMovies } from "utils/requests";
+import { useSearch, useSerchUpdate } from "../Contexts/SearchContext";
 
 export default function SearchMoviesPage() {
   const searchData = useSearch();
   const setSearchData = useSerchUpdate();
-  const searchRef = useRef();
+  const searchRef = useRef({ value: null });
   const [searchString, setSearchString] = useState("");
   const [moviesList, setMoviesList] = useState(null);
   const [moviesCount, setMoviesCount] = useState(0);
@@ -46,17 +40,25 @@ export default function SearchMoviesPage() {
             ? data.pages[0].data.totalResults
             : 0
         );
-        if (searchString !== "" && searchData?.searchString !== searchString) {
+
+        if (
+          searchString !== "" &&
+          (searchData?.searchString !== searchString ||
+            searchData?.data == null ||
+            searchData?.data.pages.length < data.pages.length)
+        ) {
           setSearchData({
             searchString: searchString,
             data: data,
           });
         }
       },
+      initialData: () => {
+        return searchData?.data;
+      },
     });
 
   useEffect(() => {
-    console.log(searchData);
     if (searchData) {
       searchRef.current.value = searchData.searchString;
       setSearchString(searchData.searchString);
@@ -98,7 +100,7 @@ export default function SearchMoviesPage() {
                 label="Find movies"
                 variant="outlined"
                 inputRef={searchRef}
-                sx={{ paddingRight: 2,  width: 'auto'}}
+                sx={{ paddingRight: 2, width: "auto" }}
               />
               <Button
                 startIcon={<Search />}
