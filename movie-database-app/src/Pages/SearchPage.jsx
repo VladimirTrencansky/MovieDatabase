@@ -37,9 +37,7 @@ export default function SearchMoviesPage() {
 
   const showSearchResult = () => {
     let result = <h2>No movies found</h2>;
-    if (isFetchingNextPage && hasNextPage) {
-      result = <Skeleton variant="rounded" width={345} height={250} />;
-    } else if (moviesList != null && moviesList.length > 0) {
+    if (moviesList != null && moviesList.length > 0) {
       result = <MoviesBoard movies={moviesList} />;
     }
 
@@ -75,17 +73,23 @@ export default function SearchMoviesPage() {
           </Grid>
           <Grid xs={6}>Results: {moviesCount}</Grid>
         </Grid>
-        {showSearchResult()}
-        <Grid xs={12}>
-          <Button
-            variant="contained"
-            startIcon={<Add />}
-            fullWidth
-            disabled={!hasNextPage}
-            onClick={() => loadNextPage()}
-          >
-            Load more
-          </Button>
+        <Grid md={12}>
+          {showSearchResult()}
+          <Grid md={12}>
+            {isFetchingNextPage && hasNextPage ? (
+              <Skeleton variant="rounded" width={345} height={250} />
+            ) : (
+              <Button
+                variant="contained"
+                startIcon={<Add />}
+                fullWidth
+                disabled={!hasNextPage}
+                onClick={() => loadNextPage()}
+              >
+                Load more
+              </Button>
+            )}
+          </Grid>
         </Grid>
       </Grid>
     </>

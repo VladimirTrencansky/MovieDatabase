@@ -15,9 +15,9 @@ export default function DetailPage() {
     queryFn: () => getMovieDetail(id),
   });
 
-  function goBack() {
+  const goBack = () => {
     navigate(-1);
-  }
+  };
 
   return (
     <>

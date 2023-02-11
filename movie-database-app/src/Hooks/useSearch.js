@@ -7,11 +7,10 @@ import { getMovies } from "utils/requests";
 const useSearch = (searchString) => {
   const [moviesList, setMoviesList] = useState(null);
   const [moviesCount, setMoviesCount] = useState(0);
-  const searchData = useSearchContext();
-  const setSearchData = useSerchContextUpdate();
+  const searchContextData = useSearchContext();
+  const setSearchContextData = useSerchContextUpdate();
 
   const updateMoviesList = (data) => {
-    console.log(data);
     setMoviesList(
       data.pages.length > 0 && data.pages[0].data.Response !== "False"
         ? data.pages
@@ -33,11 +32,11 @@ const useSearch = (searchString) => {
   const updateSearchContext = (data) => {
     if (
       searchString !== "" &&
-      (searchData?.searchString !== searchString ||
-        searchData?.data == null ||
-        searchData?.data.pages.length < data.pages.length)
+      (searchContextData?.searchString !== searchString ||
+        searchContextData?.data == null ||
+        searchContextData?.data.pages.length < data.pages.length)
     ) {
-      setSearchData({
+      setSearchContextData({
         searchString: searchString,
         data: data,
       });
@@ -53,9 +52,6 @@ const useSearch = (searchString) => {
       updateMoviesList(data);
       updateMoviesCount(data);
       updateSearchContext(data);
-    },
-    initialData: () => {
-      return searchData?.data;
     },
   });
 

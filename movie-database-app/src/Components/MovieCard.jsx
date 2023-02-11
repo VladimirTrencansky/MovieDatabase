@@ -10,13 +10,13 @@ import { Link } from "react-router-dom";
 function MovieCard({ movie, storedMovies, setStoredMovies }) {
   let isFavourite = storedMovies?.find((m) => m.imdbID === movie.imdbID);
 
-  function toggleFavourite() {
+  const toggleFavourite = () => {
     if (isFavourite) {
       setStoredMovies(storedMovies.filter((m) => m.imdbID !== movie.imdbID));
     } else {
       setStoredMovies([...storedMovies, movie]);
     }
-  }
+  };
 
   return (
     <Card variant="outlined" sx={{ maxWidth: 345 }}>
