@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Grid from "@mui/material/Unstable_Grid2";
-import { Box, Button, CardMedia } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
-import { getMovieDetail } from "utils/requests";
+import { Box, Button, CardMedia } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 import { useQuery } from "@tanstack/react-query";
+import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getMovieDetail } from "utils/requests";
 
 export default function DetailPage() {
   let { id } = useParams();
   let navigate = useNavigate();
 
-  const { isLoading, error, data } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ["movieDetail", id],
     queryFn: () => getMovieDetail(id),
   });
@@ -18,8 +18,6 @@ export default function DetailPage() {
   function goBack() {
     navigate(-1);
   }
-
-  console.log(isLoading, data);
 
   return (
     <>

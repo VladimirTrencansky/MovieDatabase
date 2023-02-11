@@ -1,5 +1,8 @@
+import MoviesBoard from "Components/MoviesBoard";
 import React from "react";
+import useLocalStorage from "../Hooks/useLocalStorage";
 
 export default function Favourite() {
-  return <h1>Favourite</h1>;
+  const [movies] = useLocalStorage("favouriteMovies");
+  return <MoviesBoard movies={movies} />;
 }

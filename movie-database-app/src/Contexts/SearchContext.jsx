@@ -3,11 +3,11 @@ import React, { useContext, useState } from "react";
 const SearchContext = React.createContext(null);
 const SearchUpdateContext = React.createContext(null);
 
-export function useSearch() {
+export function useSearchContext() {
   return useContext(SearchContext);
 }
 
-export function useSerchUpdate() {
+export function useSerchContextUpdate() {
   return useContext(SearchUpdateContext);
 }
 

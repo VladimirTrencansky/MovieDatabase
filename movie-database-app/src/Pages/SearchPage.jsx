@@ -1,62 +1,23 @@
 import { Add, Search } from "@mui/icons-material";
 import { Box, Button, Skeleton, TextField } from "@mui/material";
 import Grid from "@mui/system/Unstable_Grid";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import MoviesBoard from "Components/MoviesBoard";
 import React, { useEffect, useRef, useState } from "react";
-import { getMovies } from "utils/requests";
-import { useSearch, useSerchUpdate } from "../Contexts/SearchContext";
+import { useSearchContext } from "../Contexts/SearchContext";
+import useSearch from "./../Hooks/useSearch";
 
 export default function SearchMoviesPage() {
-  const searchData = useSearch();
-  const setSearchData = useSerchUpdate();
+  const searchData = useSearchContext();
   const searchRef = useRef({ value: null });
   const [searchString, setSearchString] = useState("");
-  const [moviesList, setMoviesList] = useState(null);
-  const [moviesCount, setMoviesCount] = useState(0);
 
-  const { data, isFetchingNextPage, hasNextPage, fetchNextPage } =
-    useInfiniteQuery({
-      queryKey: ["moviesQuery", searchString],
-      getNextPageParam: (_lastPage, pages) => {
-        if (pages.length < moviesCount / 10) {
-          return pages.length + 1;
-        } else {
-          return undefined;
-        }
-      },
-      queryFn: ({ pageParam = 1 }) => getMovies(searchString, pageParam),
-      onSuccess: (data) => {
-        setMoviesList(
-          data.pages.length > 0 && data.pages[0].data.Response !== "False"
-            ? data.pages
-                .filter((page) => page.data.Response !== "False")
-                .map((page) => page.data.Search)
-                .flat()
-            : null
-        );
-        setMoviesCount(
-          data.pages.length > 0 && data.pages[0].data.Response !== "False"
-            ? data.pages[0].data.totalResults
-            : 0
-        );
-
-        if (
-          searchString !== "" &&
-          (searchData?.searchString !== searchString ||
-            searchData?.data == null ||
-            searchData?.data.pages.length < data.pages.length)
-        ) {
-          setSearchData({
-            searchString: searchString,
-            data: data,
-          });
-        }
-      },
-      initialData: () => {
-        return searchData?.data;
-      },
-    });
+  const {
+    moviesList,
+    moviesCount,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useSearch(searchString);
 
   useEffect(() => {
     if (searchData) {
@@ -65,25 +26,25 @@ export default function SearchMoviesPage() {
     }
   }, []);
 
-  function onSerchSubmit(event) {
+  const onSerchSubmit = (event) => {
     event.preventDefault();
     setSearchString(searchRef.current.value);
-  }
+  };
 
-  function loadNextPage() {
+  const loadNextPage = () => {
     fetchNextPage();
-  }
+  };
 
-  function showSearchResult() {
+  const showSearchResult = () => {
     let result = <h2>No movies found</h2>;
-    if (isFetchingNextPage && data.pages.length < 1) {
+    if (isFetchingNextPage && hasNextPage) {
       result = <Skeleton variant="rounded" width={345} height={250} />;
     } else if (moviesList != null && moviesList.length > 0) {
       result = <MoviesBoard movies={moviesList} />;
     }
 
     return result;
-  }
+  };
 
   return (
     <>
