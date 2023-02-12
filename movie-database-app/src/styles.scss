@@ -1,0 +1,8 @@
+.search-page {
+  height: calc(100% - 69px);
+
+  .serach-results {
+    height: calc(100% - 114px);
+    overflow-y: scroll;
+  }
+}

@@ -38,7 +38,22 @@ export default function SearchMoviesPage() {
   const showSearchResult = () => {
     let result = <h2>No movies found</h2>;
     if (moviesList != null && moviesList.length > 0) {
-      result = <MoviesBoard movies={moviesList} />;
+      result = (
+        <>
+          <MoviesBoard movies={moviesList} />
+          <Grid md={12}>
+            <Button
+              variant="contained"
+              startIcon={<Add />}
+              fullWidth
+              disabled={!hasNextPage}
+              onClick={() => loadNextPage()}
+            >
+              Load more
+            </Button>
+          </Grid>
+        </>
+      );
     }
 
     return result;
@@ -46,7 +61,7 @@ export default function SearchMoviesPage() {
 
   return (
     <>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} className={"search-page"}>
         <Grid xs={12} mx={{ paddingTop: 20 }}>
           <Grid xs={6}>
             <Box
@@ -73,23 +88,8 @@ export default function SearchMoviesPage() {
           </Grid>
           <Grid xs={6}>Results: {moviesCount}</Grid>
         </Grid>
-        <Grid md={12}>
+        <Grid md={12} className={"serach-results"}>
           {showSearchResult()}
-          <Grid md={12}>
-            {isFetchingNextPage && hasNextPage ? (
-              <Skeleton variant="rounded" width={345} height={250} />
-            ) : (
-              <Button
-                variant="contained"
-                startIcon={<Add />}
-                fullWidth
-                disabled={!hasNextPage}
-                onClick={() => loadNextPage()}
-              >
-                Load more
-              </Button>
-            )}
-          </Grid>
         </Grid>
       </Grid>
     </>

@@ -7,6 +7,7 @@ import { useSearchContext } from "./../Contexts/SearchContext";
 const useSearch = (searchString) => {
   const [moviesList, setMoviesList] = useState(null);
   const [moviesCount, setMoviesCount] = useState(0);
+  const [scroll, setScroll] = useState(0);
   const searchContextData = useSearchContext();
   const setSearchContextData = useSerchContextUpdate();
 
@@ -43,12 +44,40 @@ const useSearch = (searchString) => {
     }
   };
 
+  const handleScroll = (e) => {
+    setScroll(e.target.scrollTop);
+  };
+
   useEffect(() => {
+    const scrollableContent =
+      document.getElementsByClassName("serach-results")[0];
+    scrollableContent.addEventListener("scroll", handleScroll);
+
     if (searchContextData) {
       updateMoviesList(searchContextData.data);
       updateMoviesCount(searchContextData.data);
+
+      setTimeout(() => {
+        scrollableContent.scrollTo({
+          behavior: "smooth",
+          top: searchContextData.scrollPosition,
+        });
+      }, 50);
     }
+
+    return () => {
+      scrollableContent.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+
+  useEffect(() => {
+    return () => {
+      setSearchContextData((previousValue) => ({
+        ...previousValue,
+        scrollPosition: scroll,
+      }));
+    };
+  }, [scroll]);
 
   const { isFetchingNextPage, hasNextPage, fetchNextPage } = useInfiniteQuery({
     enabled:
