@@ -52,7 +52,7 @@ const useSearch = (searchString) => {
 
   const { isFetchingNextPage, hasNextPage, fetchNextPage } = useInfiniteQuery({
     enabled:
-      searchString != null && searchString != searchContextData.searchString,
+      searchString != null && searchString != searchContextData?.searchString,
     queryKey: ["moviesQuery", searchString],
     getNextPageParam: (_lastPage, pages) =>
       pages.length < moviesCount / 10 ? pages.length + 1 : undefined,
