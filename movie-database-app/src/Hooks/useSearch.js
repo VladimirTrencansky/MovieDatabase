@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSerchContextUpdate } from "Contexts/SearchContext";
-import { useSearchContext } from "./../Contexts/SearchContext";
+import { useEffect, useState } from "react";
 import { getMovies } from "utils/requests";
+import { useSearchContext } from "./../Contexts/SearchContext";
 
 const useSearch = (searchString) => {
   const [moviesList, setMoviesList] = useState(null);
@@ -43,7 +43,16 @@ const useSearch = (searchString) => {
     }
   };
 
+  useEffect(() => {
+    if (searchContextData) {
+      updateMoviesList(searchContextData.data);
+      updateMoviesCount(searchContextData.data);
+    }
+  }, []);
+
   const { isFetchingNextPage, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    enabled:
+      searchString != null && searchString != searchContextData.searchString,
     queryKey: ["moviesQuery", searchString],
     getNextPageParam: (_lastPage, pages) =>
       pages.length < moviesCount / 10 ? pages.length + 1 : undefined,
