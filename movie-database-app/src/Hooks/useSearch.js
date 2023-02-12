@@ -91,6 +91,7 @@ const useSearch = (searchString) => {
       updateMoviesCount(data);
       updateSearchContext(data);
     },
+    staleTime: Infinity,
   });
 
   return {

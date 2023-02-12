@@ -1,7 +1,14 @@
 import { ArrowBack } from "@mui/icons-material";
-import { Box, Button, CardMedia } from "@mui/material";
+import {
+  Button,
+  CardMedia,
+  CircularProgress,
+  Paper,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useQuery } from "@tanstack/react-query";
+import StarButton from "Components/StarButton";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMovieDetail } from "utils/requests";
@@ -22,14 +29,17 @@ export default function DetailPage() {
   return (
     <>
       {isLoading ? (
-        <h1>Loading...</h1>
+        <CircularProgress />
       ) : (
-        <Box sx={{ flexGrow: 1 }}>
+        <Paper elevation={5} className="detail-wrapp">
           <Grid container>
-            <Grid md={12}>
+            <Grid md={6}>
               <Button startIcon={<ArrowBack />} onClick={goBack}>
                 Go back
               </Button>
+            </Grid>
+            <Grid md={6}>
+              <StarButton movie={data} />
             </Grid>
             <Grid md={3}>
               <CardMedia
@@ -40,25 +50,48 @@ export default function DetailPage() {
               />
             </Grid>
             <Grid container md={7}>
-              <Grid lg={12}>{data.Title}</Grid>
-              <Grid lg={12}>Released: {data.Released}</Grid>
-              <Grid lg={12}>Rated: {data.Rated}</Grid>
-              <Grid lg={12}>Runtime: {data.Runtime}</Grid>
-              <Grid lg={12}>Director: {data.Director}</Grid>
-              <Grid lg={12}>Writer: {data.Writer}</Grid>
-              <Grid lg={12}>Actors: {data.Actors}</Grid>
-              <Grid lg={12}>Genre: {data.Genre}</Grid>
-              <Grid lg={12}>Awards: {data.Awards}</Grid>
-              <Grid lg={12}>
-                Ratings:
-                {data.Ratings.map(
-                  (rating) => `${rating.Source}: ${rating.Value}`
-                )}
+              <Grid md={12}>
+                <Typography variant="h4" display={"inline"}>
+                  {data.Title}
+                </Typography>
               </Grid>
-              <Grid lg={12}>Plot: {data.Plot}</Grid>
+              <Grid md={12}>
+                <Typography variant="subtitle2" display={"inline"}>
+                  Director: {data.Director}
+                  <br />
+                  Writer: {data.Writer}
+                  <br />
+                  Actors: {data.Actors}
+                </Typography>
+              </Grid>
+              <Grid md={12}>
+                <Typography variant="caption" display={"inline"}>
+                  Released: {data.Released} <br />
+                  Rated: {data.Rated}
+                  <br />
+                  Runtime: {data.Runtime}
+                  <br />
+                  Genre: {data.Genre}
+                  <br />
+                  Awards: {data.Awards}
+                  <br />
+                  {data.Ratings.map((rating) => (
+                    <span key={rating.Source}>
+                      {rating.Source}: {rating.Value}
+                      <br />
+                    </span>
+                  ))}
+                </Typography>
+              </Grid>
+
+              <Grid lg={12}>
+                <Typography variant="body1" gutterBottom>
+                  Plot: {data.Plot}
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
-        </Box>
+        </Paper>
       )}
     </>
   );

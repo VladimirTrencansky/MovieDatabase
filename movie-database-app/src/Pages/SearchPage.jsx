@@ -1,5 +1,12 @@
 import { Add, Search } from "@mui/icons-material";
-import { Box, Button, Skeleton, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  CircularProgress,
+  Skeleton,
+  TextField,
+} from "@mui/material";
 import Grid from "@mui/system/Unstable_Grid";
 import MoviesBoard from "Components/MoviesBoard";
 import React, { useEffect, useRef, useState } from "react";
@@ -42,15 +49,19 @@ export default function SearchMoviesPage() {
         <>
           <MoviesBoard movies={moviesList} />
           <Grid md={12}>
-            <Button
-              variant="contained"
-              startIcon={<Add />}
-              fullWidth
-              disabled={!hasNextPage}
-              onClick={() => loadNextPage()}
-            >
-              Load more
-            </Button>
+            {isFetchingNextPage ? (
+              <CircularProgress />
+            ) : (
+              <Button
+                variant="contained"
+                startIcon={<Add />}
+                fullWidth
+                disabled={!hasNextPage}
+                onClick={() => loadNextPage()}
+              >
+                Load more
+              </Button>
+            )}
           </Grid>
         </>
       );
@@ -86,7 +97,13 @@ export default function SearchMoviesPage() {
               </Button>
             </Box>
           </Grid>
-          <Grid xs={6}>Results: {moviesCount}</Grid>
+          <Grid xs={6}>
+            <Chip
+              variant="outlined"
+              color="info"
+              label={`Results: ${moviesCount}`}
+            />
+          </Grid>
         </Grid>
         <Grid md={12} className={"serach-results"}>
           {showSearchResult()}

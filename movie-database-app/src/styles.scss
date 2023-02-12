@@ -2,7 +2,45 @@
   height: calc(100% - 69px);
 
   .serach-results {
-    height: calc(100% - 114px);
+    height: calc(100% - 128px);
     overflow-y: scroll;
   }
+
+  .MuiCard-root {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .MuiCardHeader-content {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .movies-board {
+    margin: 10px;
+  }
+}
+
+.favourite-page {
+  height: calc(100% - 69px);
+
+  .MuiCard-root {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .MuiCardHeader-content {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .movies-board {
+    margin: 10px;
+  }
+}
+
+.detail-wrapp {
+  margin: 10px;
 }
