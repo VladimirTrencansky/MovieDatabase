@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useQuery } from "@tanstack/react-query";
-import StarButton from "Components/StarButton";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMovieDetail } from "utils/requests";
@@ -38,9 +37,7 @@ export default function DetailPage() {
                 Go back
               </Button>
             </Grid>
-            <Grid md={6}>
-              <StarButton movie={data} />
-            </Grid>
+            <Grid md={6}></Grid>
             <Grid md={3}>
               <CardMedia
                 component="img"

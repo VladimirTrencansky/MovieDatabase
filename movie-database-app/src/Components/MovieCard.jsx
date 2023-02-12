@@ -8,7 +8,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import StarButton from "./StarButton";
 
-function MovieCard({movie}) {
+function MovieCard({ movie, storedMovies, setStoredMovies }) {
+  let isFavourite = storedMovies?.find((m) => m.imdbID === movie.imdbID);
+
+  const toggleFavourite = () => {
+    if (isFavourite) {
+      setStoredMovies(storedMovies.filter((m) => m.imdbID !== movie.imdbID));
+    } else {
+      setStoredMovies([...storedMovies, movie]);
+    }
+  };
+
   return (
     <Card sx={{ maxWidth: 345, height: 500 }} elevation={5}>
       <CardHeader
@@ -20,7 +30,10 @@ function MovieCard({movie}) {
       />
       <CardMedia component="img" image={movie.Poster} alt="movie image" />
       <CardActions>
-        <StarButton movie={movie} />
+        <StarButton
+          toggleFavourite={toggleFavourite}
+          isFavourite={isFavourite}
+        />
         <Button
           startIcon={<Movie />}
           component={Link}

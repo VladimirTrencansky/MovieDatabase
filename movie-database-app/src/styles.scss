@@ -25,6 +25,10 @@
 .favourite-page {
   height: calc(100% - 69px);
 
+  .info {
+    margin: 10px;
+  }
+
   .MuiCard-root {
     display: flex;
     flex-direction: column;

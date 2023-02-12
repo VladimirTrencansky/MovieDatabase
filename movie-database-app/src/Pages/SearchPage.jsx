@@ -1,5 +1,6 @@
 import { Add, Search } from "@mui/icons-material";
 import {
+  Alert,
   Box,
   Button,
   Chip,
@@ -43,7 +44,11 @@ export default function SearchMoviesPage() {
   };
 
   const showSearchResult = () => {
-    let result = <h2>No movies found</h2>;
+    let result = (
+      <Alert severity="info" className="info">
+        No movies found
+      </Alert>
+    );
     if (moviesList != null && moviesList.length > 0) {
       result = (
         <>

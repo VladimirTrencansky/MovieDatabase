@@ -1,11 +1,8 @@
 import { Star, StarBorder } from "@mui/icons-material";
 import { IconButton, Tooltip } from "@mui/material";
 import React from "react";
-import useFavouriteMovies from "./../Hooks/useFavouriteMovies";
 
-const StarButton = ({ movie }) => {
-  const { toggleFavourite, isFavourite } = useFavouriteMovies(movie);
-
+const StarButton = ({ toggleFavourite, isFavourite }) => {
   return (
     <Tooltip
       title={
