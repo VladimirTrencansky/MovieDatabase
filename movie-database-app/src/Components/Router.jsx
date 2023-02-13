@@ -9,11 +9,11 @@ const Favourite = lazy(() => import("Pages/FavouritePage"));
 
 export default function Router() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <NavigationBar />
       <Routes>
         <Route
-          path="/"
+          path="/{app-name}"
           element={
             <Suspense fallback={<CircularProgress />}>
               <SearchMoviesPage />
