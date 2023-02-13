@@ -1,6 +1,12 @@
 import { CircularProgress } from "@mui/material";
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  HashRouter,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
 import NavigationBar from "./NavigationBar";
 
 const SearchMoviesPage = lazy(() => import("Pages/SearchPage"));
@@ -9,11 +15,11 @@ const Favourite = lazy(() => import("Pages/FavouritePage"));
 
 export default function Router() {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter>
       <NavigationBar />
       <Routes>
         <Route
-          path="/{app-name}"
+          path="/"
           element={
             <Suspense fallback={<CircularProgress />}>
               <SearchMoviesPage />
@@ -45,6 +51,6 @@ export default function Router() {
           }
         />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
