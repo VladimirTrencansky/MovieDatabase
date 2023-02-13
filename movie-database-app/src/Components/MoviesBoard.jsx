@@ -13,9 +13,9 @@ export default function MoviesBoard({ movies }) {
   return (
     <Grid container spacing={1} className={"movies-board"}>
       {movies.map((movie) => (
-        <Grid xs={2.4} key={movie.imdbID}>
+        <Grid md={2.4} xl={2} key={movie.imdbID}>
           <MovieCard
-            movie={movie}            
+            movie={movie}
             storedMovies={storedMovies}
             setStoredMovies={setStoredMovies}
           />

@@ -11,51 +11,53 @@ import { Link } from "react-router-dom";
 
 function NavigationBar() {
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <LocalMoviesIcon
-            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-          />
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            MOVIES
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              component={Link}
-              to={"/search"}
-              key={"search"}
-              sx={{ my: 2, color: "white" }}
-              startIcon={<Search />}
+    <>
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <LocalMoviesIcon
+              sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
             >
-              Search
-            </Button>
+              MOVIES
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <Button
+                component={Link}
+                to={"/search"}
+                key={"search"}
+                sx={{ my: 2, color: "white" }}
+                startIcon={<Search />}
+              >
+                Search
+              </Button>
 
-            <Button
-              component={Link}
-              key={"favourite"}
-              sx={{ my: 2, color: "white" }}
-              startIcon={<Star />}
-              to="/favourite"
-            >
-              Favourite
-            </Button>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+              <Button
+                component={Link}
+                key={"favourite"}
+                sx={{ my: 2, color: "white" }}
+                startIcon={<Star />}
+                to="/favourite"
+              >
+                Favourite
+              </Button>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </>
   );
 }
 export default NavigationBar;

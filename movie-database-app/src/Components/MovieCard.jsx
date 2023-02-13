@@ -28,7 +28,7 @@ function MovieCard({ movie, storedMovies, setStoredMovies }) {
           noWrap: true,
         }}
       />
-      <CardMedia component="img" image={movie.Poster} alt="movie image" />
+      <CardMedia component="img" image={movie.Poster} alt="movie image" sx={{maxHeight: 350}}/>
       <CardActions>
         <StarButton
           toggleFavourite={toggleFavourite}
